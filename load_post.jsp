@@ -10,7 +10,6 @@
 <div class="row">
 
 	<%
-	Thread.sleep(1000);
 	User user = (User) session.getAttribute("currentUser");
 
 	PostDao dao = new PostDao(ConnectionProvider.getConnection());
@@ -27,7 +26,9 @@
 		User u = ud.getUserByUserId(p.getUserID());
 	%>
 
-	<div id="<%="col"+p.getPid()%> " class="col-md-4">
+	<div id="<%="post-" + p.getPid()%>" class="col-md-4">
+
+
 
 		<div class="card">
 			<div class="d-flex align-items-center p-3 border-bottom">
@@ -50,23 +51,28 @@
 				</div>
 
 				<div class="btn-group">
-					<button type="button" class="btn btn-secondary dropdown-toggle"
+					<button type="button" class="btn  dropdown-toggle"
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<span class="fa fa-list-ul"></span>
 
 					</button>
 					<div class="dropdown-menu dropdown-menu-right">
-						<a class="dropdown-item" href="#"> <span
+						<a class="dropdown-item" onclick="Edit_Post()"> <span
 							class="fa fa-pencil-square-o"></span> Edit Post
-						</a> <a onclick="deletePost(<%=p.getPid()%>)" class="dropdown-item"
-							href="#"> <span class="fa fa-trash-o"></span> Delete Post
-						</a> <a class="dropdown-item" href="#"> <span
-							class="fa fa-times-circle-o"></span> Not Interested
-						</a> <a class="dropdown-item" href="#"> <span class="fa fa-save"></span>
+						</a> <a onclick="deletePost(<%=p.getPid()%>)" class="dropdown-item">
+							<span class="fa fa-trash-o"></span> Delete Post
+						</a> <a class="dropdown-item"> <span class="fa fa-times-circle-o"></span>
+							Not Interested
+						</a> <a class="dropdown-item"> <span class="fa fa-save"></span>
 							Save Post
 						</a>
 
 					</div>
+
+
+					<!-- Modal -->
+
+
 				</div>
 
 
@@ -93,24 +99,17 @@
 				boolean isLiked = ld.isLikedByUser(p.getPid(), user.getId());
 				%>
 
-				<%-- <a onclick="doLike(<%=p.getPid()%>,<%=user.getId()%>)"
-					class="btn btn-sm <%=isLiked ? "btn-primary" : "btn-outline-primary"%>">
-					<i class="fa <%=isLiked ? "fa-thumbs-up" : "fa-thumbs-o-up"%>"></i>
-					<%=isLiked ? "Liked " : "Like "%><span class="like-counter">
-						<%=count%>
-				</span>
-				</a>  --%>
 
 				<a id="<%="like-btn-" + p.getPid()%>" <%if (user != null) {%>
-					onclick="doLike(<%=p.getPid()%>, <%= user.getId() %>)" <%} else {%>
+					onclick="doLike(<%=p.getPid()%>, <%=user.getId()%>)" <%} else {%>
 					onclick="redirectToLogin()" <%}%>
 					class="btn btn-sm <%=isLiked ? "btn-primary" : "btn-outline-primary"%>">
 
 					<i id="<%="icon-" + p.getPid()%>"
-					class="fa <%=isLiked ? "fa-thumbs-up" : "fa-thumbs-o-up"%>"></i>
-					<span id="<%="showLiked-" + p.getPid()%>"><%=isLiked ? "Liked " : "Like "%></span>
-					<span class="<%="like-counter-" + p.getPid()%>"><%=count%></span>
-
+					class="fa <%=isLiked ? "fa-thumbs-up" : "fa-thumbs-o-up"%>"></i> <span
+					id="<%="showLiked-" + p.getPid()%>"> <%=isLiked ? "Liked " : "Like "%>
+				</span> <span class="<%="like-counter-" + p.getPid()%>"> <%=count%>
+				</span>
 				</a> <a href="" class="btn btn-outline-primary btn-sm"> <i
 					class="fa fa-commenting-o"> <span>10</span>
 				</i>
